@@ -2,6 +2,53 @@ using System.Collections;
 
 public class BinarySearchTree : IEnumerable<int>
 {
+    private class Node
+    {
+        public int Data { get; set; }
+        public Node? Left { get; private set; }
+        public Node? Right { get; private set; }
+
+        public Node(int data)
+        {
+            this.Data = data;
+        }
+
+        public void Insert(int value)
+        {
+            if (value < Data)
+            {
+                if (Left is null)
+                    Left = new Node(value);
+                else
+                    Left.Insert(value);
+            }
+            else if (value > Data)
+            {
+                if (Right is null)
+                    Right = new Node(value);
+                else
+                    Right.Insert(value);
+            }
+        }
+
+        public bool Contains(int value)
+        {
+            if (value == Data)
+                return true;
+            else if (value < Data)
+                return Left?.Contains(value) ?? false;
+            else
+                return Right?.Contains(value) ?? false;
+
+        }
+
+        public int GetHeight()
+        {
+            int leftHeight = Left?.GetHeight() ?? 0;
+            int rightHeight = Right?.GetHeight () ?? 0;
+            return 1 + Math.Max(leftHeight, rightHeight);
+        }
+    }
     private Node? _root;
 
     /// <summary>
@@ -9,18 +56,12 @@ public class BinarySearchTree : IEnumerable<int>
     /// </summary>
     public void Insert(int value)
     {
-        // Create new node
-        Node newNode = new(value);
         // If the list is empty, then point both head and tail to the new node.
-        if (_root is null)
-        {
-            _root = newNode;
-        }
+        if (_root == null)
+            _root = new Node(value);
         // If the list is not empty, then only head will be affected.
         else
-        {
             _root.Insert(value);
-        }
     }
 
     /// <summary>
@@ -57,7 +98,7 @@ public class BinarySearchTree : IEnumerable<int>
 
     private void TraverseForward(Node? node, List<int> values)
     {
-        if (node is not null)
+        if (node != null)
         {
             TraverseForward(node.Left, values);
             values.Add(node.Data);
@@ -81,6 +122,12 @@ public class BinarySearchTree : IEnumerable<int>
     private void TraverseBackward(Node? node, List<int> values)
     {
         // TODO Problem 3
+        if (node != null)
+        {
+            TraverseBackward(node.Right, values);
+            values.Add(node.Data);
+            TraverseBackward(node.Left, values);
+        }
     }
 
     /// <summary>
@@ -88,7 +135,7 @@ public class BinarySearchTree : IEnumerable<int>
     /// </summary>
     public int GetHeight()
     {
-        if (_root is null)
+        if (_root == null)
             return 0;
         return _root.GetHeight();
     }
@@ -96,11 +143,5 @@ public class BinarySearchTree : IEnumerable<int>
     public override string ToString()
     {
         return "<Bst>{" + string.Join(", ", this) + "}";
-    }
-}
-
-public static class IntArrayExtensionMethods {
-    public static string AsString(this IEnumerable array) {
-        return "<IEnumerable>{" + string.Join(", ", array.Cast<int>()) + "}";
     }
 }
