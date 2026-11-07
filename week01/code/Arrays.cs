@@ -8,12 +8,17 @@ public static class Arrays
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Plan:
+        // 1. Create an array with the requested number of entries.
+        // 2. For each index, multiply the starting number by the index plus one.
+        // 3. Store each product in the array, then return the completed array.
+        double[] multiples = new double[length];
+        for (int index = 0; index < length; index++)
+        {
+            multiples[index] = number * (index + 1);
+        }
 
-        return []; // replace this return statement with your own
+        return multiples;
     }
 
     /// <summary>
@@ -25,9 +30,17 @@ public static class Arrays
     /// </summary>
     public static void RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Plan:
+        // 1. Find where the last 'amount' values begin: data.Count - amount.
+        // 2. Copy those ending values and the values before them into separate lists.
+        // 3. Clear the original list, then append the ending values followed by the earlier values.
+        // This moves the ending section to the front while keeping the original list instance.
+        int splitIndex = data.Count - amount;
+        List<int> endingValues = data.GetRange(splitIndex, amount);
+        List<int> earlierValues = data.GetRange(0, splitIndex);
+
+        data.Clear();
+        data.AddRange(endingValues);
+        data.AddRange(earlierValues);
     }
 }
