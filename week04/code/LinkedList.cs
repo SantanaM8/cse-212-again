@@ -28,7 +28,6 @@ public class LinkedList : IEnumerable<int> {
     /// Insert a new node at the back (i.e. the tail) of the linked list.
     /// </summary>
     public void InsertTail(int value) {
-        // TODO Problem 1
         //Create a new Node with the given value.
         Node newNode = new Node(value);
         //If the list is empty, then point both head and tail to the new node
@@ -67,7 +66,6 @@ public class LinkedList : IEnumerable<int> {
     /// Remove the last node (i.e. the tail) of the linked list.
     /// </summary>
     public void RemoveTail() {
-        // TODO Problem 2
         //If the list has only one item or is empty, set head and tail to null
         if(_head == _tail) {
             _head = null;
@@ -116,7 +114,6 @@ public class LinkedList : IEnumerable<int> {
     /// Remove the first node that contains 'value'.
     /// </summary>
     public void Remove(int value) {
-        // TODO Problem 3
         //Search for the node that contains 'value'
         Node? curr = _head;
         while (curr is not null)
@@ -145,7 +142,6 @@ public class LinkedList : IEnumerable<int> {
     /// Search for all instances of 'oldValue' and replace the value to 'newValue'.
     /// </summary>
     public void Replace(int oldValue, int newValue) {
-        // TODO Problem 4
         //Iterate through the list and replace all occurrences of 'oldValue' with 'newValue'
         Node? curr = _head;
         while (curr is not null)
@@ -181,14 +177,12 @@ public class LinkedList : IEnumerable<int> {
     /// Iterate backward through the Linked List
     /// </summary>
     public IEnumerable Reverse() {
-        // TODO Problem 5
         var curr = _tail;//Start at the end for backward iteration
         while (curr is not null)
         {
             yield return curr.Data;//provide each item for the user.
             curr = curr.Prev;//move to the previous node
         }
-        //yield return 0; // replace this line with the correct yield return statement(s)
     }
 
     public override string ToString() {
@@ -203,5 +197,15 @@ public class LinkedList : IEnumerable<int> {
     // Just for testing.
     public Boolean HeadAndTailAreNotNull() {
         return _head is not null && _tail is not null;
+    }
+}
+
+public static class EnumerableExtensions
+{
+    public static string AsString(this IEnumerable values)
+    {
+        var items = values.Cast<object>()
+            .Select(value => Convert.ToString(value, CultureInfo.InvariantCulture));
+        return $"<IEnumerable>{{{string.Join(", ", items)}}}";
     }
 }
